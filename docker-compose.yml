@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  database:
+    container_name: webdb
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'onlineshop'
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ROOT_PASSWORD: ""
+      
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    container_name: pma 
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - database
+    links:
+      - database
+    environment:
+      PMA_HOST: "database"
+      PMA_PORT: "3306"
+    ports:
+      - 4000:80
+  website-apache:
+    container_name: website
+    depends_on:
+      - database
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aminabaza/onlineshoping
+    restart: always
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - 9000:80
+  
+    
+

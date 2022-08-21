@@ -1,6 +1,6 @@
 <?php
 
-$servername = "localhost";
+$servername = "webdb";
 $username = "root";
 $password = "";
 $db = "onlineshop";
